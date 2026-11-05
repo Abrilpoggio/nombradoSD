@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc 3.11" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Nombrado en SD</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      white-space: pre-wrap;
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Nombrado en SD</h1>
+</header>
+<h1 id="sistemas-distribuidos-nombrado-en-sd">Sistemas Distribuidos —
+Nombrado en SD</h1>
+<p><strong>Trabajo práctico: “Nombrado en Sistemas
+Distribuidos”</strong> Plataforma distribuida de comercio
+electrónico.</p>
+<table>
+<thead>
+<tr>
+<th>Dato</th>
+<th>Valor</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Materia</td>
+<td>Sistemas Operativos — Sistemas Distribuidos</td>
+</tr>
+<tr>
+<td>Carrera</td>
+<td>Licenciatura en Sistemas de Información</td>
+</tr>
+<tr>
+<td>Docente</td>
+<td>Ing. Mg. Ulises Rapallini</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="parte-1-respuestas-a-las-preguntas-teóricas">Parte 1 —
+Respuestas a las preguntas teóricas</h2>
+<h3 id="nombre-identificador-y-dirección">1. Nombre, identificador y
+dirección</h3>
+<p>Dado el par <strong><code>inventory-service</code></strong> (nombre)
+y <strong><code>172.18.0.5</code></strong> (dirección):</p>
+<p><strong>1. ¿Qué diferencia existe entre el nombre
+<code>inventory-service</code> y la dirección
+<code>172.18.0.5</code>?</strong> El nombre es una etiqueta legible y
+significativa para humanos que identifica al recurso de forma
+<strong>lógica</strong>, independiente de dónde esté alojado. La
+dirección es el identificador <strong>físico</strong> (en este caso una
+IP) que indica dónde se encuentra el recurso dentro de la red en un
+momento dado. El nombre es estable; la dirección puede cambiar.</p>
+<p><strong>2. ¿Qué se entiende por nombre dentro de un sistema
+distribuido?</strong> Una cadena de caracteres (generalmente legible)
+que se usa para referirse a una entidad (proceso, servicio, recurso,
+objeto) de forma independiente de su ubicación física. Permite
+referenciar un recurso sin conocer su dirección.</p>
+<p><strong>3. ¿Qué se entiende por identificador?</strong> Un nombre que
+cumple propiedades estrictas: cada identificador refiere a <strong>una
+única entidad</strong>, cada entidad es referida por <strong>un único
+identificador</strong>, y un identificador nunca se reutiliza (no se
+reasigna a otra entidad, ni siquiera después de que la original
+desaparezca). Por ejemplo, un UUID o un DNI. Un identificador permite
+comparar inequívocamente si dos referencias apuntan a la misma
+entidad.</p>
+<p><strong>4. ¿Qué se entiende por dirección?</strong> El nombre del
+punto de acceso físico de una entidad en la red. Indica dónde se puede
+alcanzar la entidad (por ejemplo, una dirección IP + puerto). Una
+dirección está atada a la ubicación actual y por lo tanto no es estable
+en el tiempo.</p>
+<p><strong>5. ¿Una dirección puede utilizarse como identificador?
+Justifique.</strong> No de forma correcta. Una dirección (p. ej. una IP)
+se refiere a la <em>ubicación</em>, no a la <em>entidad</em>. Si la
+entidad se mueve, se reinicia o es reemplazada, la dirección cambia o es
+reasignada a otra entidad, por lo que deja de identificar unívocamente a
+la original. Además, una misma entidad puede tener varias direcciones
+(varias NIC) y una dirección puede cambiar de dueño, violando las
+propiedades de un identificador.</p>
+<p><strong>6. ¿Puede una misma entidad tener diferentes nombres?
+Proporcione un ejemplo.</strong> Sí. Un mismo servicio puede ser
+accedido como <code>inventory-service</code> (nombre interno de Docker),
+<code>api.inventory.empresa.com</code> (nombre DNS jerárquico) y
+<code>172.18.0.5:8080</code> (dirección). Todos apuntan a la misma
+entidad lógica.</p>
+<p><strong>7. ¿Puede un mismo nombre representar diferentes instancias
+de un servicio?</strong> Sí. En un esquema de escalado horizontal, el
+nombre <code>inventory-service</code> puede resolver a
+<strong>varias</strong> direcciones IP (una por instancia/réplica). El
+nombre se convierte en un nombre lógico de <em>grupo</em>, y un
+balanceador de carga o el sistema de descubrimiento decide a cuál
+instancia concreta derivar cada petición.</p>
+<hr />
+<h3 id="resolución-de-nombres">2. Resolución de nombres</h3>
+<p><strong>1. ¿Qué significa resolver un nombre?</strong> Es el proceso
+de traducir un nombre lógico en la información necesaria para localizar
+la entidad (normalmente una dirección IP y un puerto). Dado
+<code>inventory-service</code>, resolverlo significa obtener su IP,
+p. ej. <code>172.18.0.5</code>.</p>
+<p><strong>2. ¿Qué componente transforma <code>inventory-service</code>
+en una dirección?</strong> Un <strong>resolver</strong> (resolutor) o
+servicio de nombres. En Docker es el <strong>DNS embebido</strong>
+(servidor en <code>127.0.0.11</code>); en Internet es el
+<strong>DNS</strong>; en Kubernetes es el
+<strong>CoreDNS/kube-dns</strong> junto al objeto Service. El proceso
+cliente consulta a este componente y recibe la dirección.</p>
+<p><strong>3. ¿Por qué conviene utilizar nombres en lugar de IP
+configuradas directamente?</strong> Porque las IP son inestables:
+cambian al reiniciar, escalar, migrar o reemplazar una instancia. Si el
+código usara la IP, habría que modificarlo cada vez que cambia la
+topología. El nombre desacopla la referencia lógica de la ubicación
+física.</p>
+<p><strong>4. ¿Qué ocurre si <code>inventory-service</code> cambia su
+dirección IP?</strong> Nada desde el punto de vista del cliente, siempre
+que se use el nombre. El servicio de nombres actualiza el registro y las
+siguientes resoluciones devuelven la nueva IP. Si el cliente hubiera
+usado la IP directa, quedaría apuntando a una dirección obsoleta y las
+peticiones fallarían.</p>
+<p><strong>5. ¿Qué relación existe entre resolución de nombres y
+transparencia de ubicación?</strong> La transparencia de ubicación es la
+propiedad por la cual el cliente no necesita saber dónde está el
+recurso. La resolución de nombres es el mecanismo que la habilita: el
+cliente usa un nombre estable y el sistema de nombres resuelve
+dinámicamente la ubicación actual, ocultando los cambios de
+dirección.</p>
+<hr />
+<h3 id="espacios-de-nombres">3. Espacios de nombres</h3>
+<p>Dado <strong><code>api.inventory.empresa.com</code></strong>:</p>
+<p><strong>1. ¿Qué es un espacio de nombres?</strong> Es el conjunto de
+nombres organizados bajo unas reglas de estructura y asignación. Define
+la sintaxis (cómo se forma un nombre válido) y la semántica (cómo se
+interpreta) de los nombres de un dominio, incluyendo quién puede crear
+qué nombres y cómo se resuelven.</p>
+<p><strong>2. ¿Corresponde a un esquema plano o jerárquico?</strong>
+Jerárquico. Los nombres se estructuran en niveles separados por puntos
+(<code>.</code>), cada uno dentro de un dominio administrado por un
+nivel superior.</p>
+<p><strong>3. Identifique los diferentes niveles del nombre.</strong> -
+<code>com</code> → dominio de nivel superior (TLD). -
+<code>empresa</code> → dominio de segundo nivel (organización). -
+<code>inventory</code> → subdominio (servicio/departamento). -
+<code>api</code> → subdominio más específico (o host) que apunta al
+punto de acceso de la API.</p>
+<p><strong>4. ¿Qué ventajas presenta un espacio de nombres
+jerárquico?</strong> - <strong>Escalabilidad</strong>: se pueden agregar
+niveles sin límite global. - <strong>Delegación</strong>: cada nivel
+administra sus subniveles (la raíz delega en <code>.com</code>,
+<code>.com</code> en <code>empresa</code>, etc.). - <strong>Evita
+colisiones</strong>: los nombres son únicos globalmente por la
+jerarquía. - <strong>Localidad y mantenimiento</strong>: los cambios se
+limitan al subdominio afectado.</p>
+<p><strong>5. ¿Por qué DNS utiliza una estructura jerárquica?</strong>
+Porque permite distribuir la responsabilidad de resolución entre muchos
+servidores autónomos, delegando por niveles (raíz → TLD → dominio). Esto
+hace al sistema escalable a millones de nombres, tolerante a fallos y
+administrable de forma descentralizada, imposible con un único registro
+plano centralizado.</p>
+<hr />
+<h3 id="dns">4. DNS</h3>
+<p><strong>1. ¿Qué función cumple DNS?</strong> Traducir nombres de
+dominio legibles (p. ej. <code>www.google.com</code>) en direcciones IP
+utilizables por la red, y viceversa. Es el “directorio” de Internet.</p>
+<p><strong>2. ¿Por qué DNS puede considerarse un sistema
+distribuido?</strong> Porque está implementado como una jerarquía de
+servidores repartidos por todo el mundo (servidores raíz, TLD,
+autoritativos, recursivos/resolvers), que cooperan entre sí, se replican
+y delegan zonas. No hay un único punto central que contenga todos los
+nombres.</p>
+<p><strong>3. ¿Qué información almacena un servidor DNS?</strong>
+Registros de recursos (RR): <code>A</code>/<code>AAAA</code> (nombre →
+IP), <code>CNAME</code> (alias), <code>MX</code> (mail), <code>NS</code>
+(servidor autoritativo de una zona), <code>PTR</code> (IP → nombre,
+inversa), <code>SOA</code> (autoridad de la zona), <code>TXT</code>,
+etc., junto con sus TTL (tiempo de vida en caché).</p>
+<p><strong>4. ¿Qué diferencia existe entre un nombre de dominio y una
+dirección IP?</strong> El nombre de dominio es una identificación lógica
+y mnemotécnica de una entidad; la IP es una identificación numérica de
+su ubicación/interface de red. El nombre se resuelve a una IP mediante
+DNS. El nombre es más estable y legible; la IP puede cambiar.</p>
+<p><strong>5. ¿Qué ventajas proporciona el uso de caché?</strong> Reduce
+la latencia (se evita re-consultar la jerarquía), descarga a los
+servidores autoritativos, mejora la tolerancia a fallos (respuestas
+disponibles aunque un servidor esté caído mientras el TTL no expire) y
+reduce el tráfico de red. Su coste es una eventual inconsistencia
+temporal mientras no expira el TTL.</p>
+<p><strong>6. ¿Qué ocurriría si las aplicaciones tuvieran que conocer
+directamente las IP de todos los servicios?</strong> Sería inviable de
+mantener: cada cambio de IP obligaría a modificar y redesplegar todas
+las aplicaciones cliente, no habría tolerancia a reasignaciones ni
+balanceo, y la administración de un gran número de servicios sería
+propensa a errores y cortes. El desacople nombre–dirección es lo que
+hace manejable un sistema distribuido.</p>
+<hr />
+<h3 id="nombrado-en-arquitecturas-modernas">5. Nombrado en arquitecturas
+modernas</h3>
+<p><strong>1. ¿Por qué resulta inconveniente configurar manualmente las
+IP de los microservicios?</strong> Porque en entornos de
+contenedores/orquestación las IP son efímeras: se asignan al arrancar y
+cambian al recrear, escalar o migrar una instancia. Mantenerlas a mano
+no escala y genera configuraciones frágiles que se rompen ante cualquier
+cambio.</p>
+<p><strong>2. ¿Qué ocurre cuando un contenedor es eliminado y creado
+nuevamente?</strong> Se crea una instancia nueva que normalmente recibe
+una dirección IP distinta (y siempre una identidad nueva). Si otros
+servicios la referenciaban por IP, quedan apuntando a una dirección
+obsoleta. Si la referencian por nombre, el sistema de nombres se
+actualiza y las resoluciones siguen funcionando.</p>
+<p><strong>3. ¿Por qué un nombre puede permanecer estable aunque cambie
+la dirección?</strong> Porque el nombre es una abstracción lógica
+independiente de la ubicación. El servicio de nombres mantiene el
+vínculo nombre → dirección actual y lo actualiza cuando la entidad
+cambia de ubicación, de modo que la referencia lógica del cliente no
+cambia.</p>
+<p><strong>4. ¿Qué se entiende por Service Discovery?</strong> Es el
+mecanismo por el cual los servicios se registran (nombre + ubicación) en
+un registro central y los clientes consultan ese registro para localizar
+dinámicamente las instancias disponibles. Incluye registro, consulta y,
+normalmente, chequeo de salud para detectar instancias caídas.</p>
+<p><strong>5. ¿Qué relación existe entre Service Discovery y
+nombrado?</strong> El Service Discovery es una capa de nombrado
+dinámico: el “nombre” del servicio es la clave estable y el registro
+mantiene la lista actual de direcciones asociadas. Es la evolución del
+concepto clásico de resolución de nombres aplicada a servicios efímeros
+y replicados.</p>
+<p><strong>6. ¿Qué diferencias existen entre DNS tradicional y
+descubrimiento de servicios?</strong> | Aspecto | DNS tradicional |
+Service Discovery | |—|—|—| | Objetivo | Resolver nombres de
+hosts/dominios | Localizar instancias de un servicio | | Dinamismo |
+Bajo (registros relativamente estáticos, TTL) | Alto (instancias
+entran/salen continuamente) | | Salud | No conoce el estado del destino
+| Incorpora health checks | | Resultado | Una IP (o varias) | Lista de
+instancias vivas + metadatos/puertos | | Actualización | Por propagación
+de zonas y TTL | En tiempo real ante registro/baja |</p>
+<hr />
+<h2 id="parte-2-ejercicios-prácticos">Parte 2 — Ejercicios
+prácticos</h2>
+<h3 id="ejercicio-1-crear-una-red-docker">Ejercicio 1 — Crear una red
+Docker</h3>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> network create ecommerce-network</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> network ls</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> network inspect ecommerce-network</span></code></pre></div>
+<p><strong>Salida real:</strong></p>
+<pre><code>$ docker network create ecommerce-network
+9bc44736e3edc1b6fbaeb23fd04b107ab6dd6e21d59bd14c64666af96562e814
+
+$ docker network ls
+NETWORK ID     NAME               DRIVER    SCOPE
+9bc44736e3ed   ecommerce-network  bridge    local
+...
+
+$ docker network inspect ecommerce-network
+{
+    &quot;Name&quot;: &quot;ecommerce-network&quot;,
+    &quot;Driver&quot;: &quot;bridge&quot;,
+    &quot;IPAM&quot;: { &quot;Config&quot;: [ { &quot;Subnet&quot;: &quot;172.22.0.0/16&quot;, &quot;Gateway&quot;: &quot;172.22.0.1&quot; } ] }
+}</code></pre>
+<p><strong>Análisis:</strong> 1. <strong>¿Qué función cumple una red
+Docker?</strong> Crea un espacio de red aislado (tipo <em>bridge</em>)
+al que se conectan los contenedores, permitiéndoles comunicarse entre sí
+por su nombre y asignándoles direcciones dentro de la subred. 2.
+<strong>¿Qué servicios pueden comunicarse en ella?</strong> Todos los
+contenedores que se conecten a <code>ecommerce-network</code> pueden
+alcanzarse entre sí (comunicación directa). Los que no estén en la red
+no. 3. <strong>¿Qué relación tiene con la resolución de
+nombres?</strong> Docker asocia a esta red un <strong>DNS
+embebido</strong> que registra automáticamente cada contenedor con su
+nombre. Por eso dentro de la red el nombre
+<code>inventory-service</code> se resuelve a su IP sin configuración
+manual.</p>
+<hr />
+<h3 id="ejercicio-2-crear-el-servicio-de-inventario">Ejercicio 2 — Crear
+el servicio de inventario</h3>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> run <span class="at">-d</span> <span class="at">--name</span> inventory-service <span class="at">--network</span> ecommerce-network nginx</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> ps</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> inspect inventory-service</span></code></pre></div>
+<p><strong>Salida real:</strong></p>
+<pre><code>$ docker inspect -f &quot;Nombre: {{.Name}} | IP: ... | Estado: {{.State.Status}}&quot; inventory-service
+Nombre: /inventory-service | IP: 172.22.0.2 | Estado: running</code></pre>
+<p><strong>Registro:</strong> nombre <code>inventory-service</code>, IP
+<code>172.22.0.2</code>, red <code>ecommerce-network</code>, estado
+<code>running</code>.</p>
+<p><strong>Análisis de la diferencia nombre vs. dirección:</strong> el
+nombre <code>inventory-service</code> es la etiqueta lógica estable; la
+IP <code>172.22.0.2</code> es la ubicación física efímera asignada en
+este arranque.</p>
+<hr />
+<h3 id="ejercicio-3-crear-un-cliente">Ejercicio 3 — Crear un
+cliente</h3>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> run <span class="at">-it</span> <span class="at">--name</span> orders-service <span class="at">--network</span> ecommerce-network alpine</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># dentro del contenedor:</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="ex">apk</span> add <span class="at">--no-cache</span> bind-tools curl</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ping</span> inventory-service</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="ex">nslookup</span> inventory-service</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="fu">getent</span> hosts inventory-service</span></code></pre></div>
+<p><strong>Salida real:</strong></p>
+<pre><code>$ ping -c 3 inventory-service
+PING inventory-service (172.22.0.2): 56 data bytes
+64 bytes from 172.22.0.2: ... time=2.536 ms
+--- inventory-service ping statistics ---
+3 packets transmitted, 3 packets received, 0% packet loss
+
+$ nslookup inventory-service
+Server:   127.0.0.11
+Address:  127.0.0.11#53
+Name:   inventory-service
+Address: 172.22.0.2
+
+$ getent hosts inventory-service
+172.22.0.2        inventory-service
+
+$ cat /etc/resolv.conf
+nameserver 127.0.0.11</code></pre>
+<p><strong>Análisis:</strong> - <strong>¿Quién resolvió el
+nombre?</strong> El <strong>DNS embebido de Docker</strong>, que escucha
+en <code>127.0.0.11</code> (según <code>/etc/resolv.conf</code>). Es él
+quien devuelve <code>172.22.0.2</code> para
+<code>inventory-service</code>. - <strong>¿Fue necesario conocer la
+IP?</strong> No; el usuario/cliente solo usó el nombre. - <strong>¿Qué
+ventaja presenta?</strong> Desacopla la referencia de la ubicación: si
+la IP cambia, el nombre sigue resolviendo correctamente.</p>
+<hr />
+<h3 id="ejercicio-4-cambio-de-dirección">Ejercicio 4 — Cambio de
+dirección</h3>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> stop inventory-service</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> rm inventory-service</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> run <span class="at">-d</span> <span class="at">--name</span> inventory-service <span class="at">--network</span> ecommerce-network nginx</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> inspect inventory-service</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co"># desde orders-service:</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="ex">nslookup</span> inventory-service</span></code></pre></div>
+<p><strong>Salida real (forzando que la IP cambie ocupando direcciones
+intermedias):</strong></p>
+<pre><code>Antes:  inventory-service -&gt; 172.22.0.2
+Después de recrear: inventory-service -&gt; 172.22.0.5
+
+$ nslookup inventory-service   (desde orders-service, SIN cambios)
+Name:   inventory-service
+Address: 172.22.0.5</code></pre>
+<p><strong>Respuestas:</strong> 1. <strong>¿Cambió la IP?</strong> Sí,
+de <code>172.22.0.2</code> a <code>172.22.0.5</code>. 2. <strong>¿Cambió
+el nombre?</strong> No, sigue siendo <code>inventory-service</code>. 3.
+<strong>¿Fue necesario modificar el cliente?</strong> No;
+<code>orders-service</code> sigue resolviendo
+<code>inventory-service</code> y obtiene la nueva IP automáticamente. 4.
+<strong>¿Qué relación tiene con transparencia de ubicación?</strong> Es
+un ejemplo directo: el cliente usa un nombre lógico estable y el cambio
+físico de ubicación (IP) le resulta transparente.</p>
+<hr />
+<h3 id="ejercicio-5-dns-tradicional">Ejercicio 5 — DNS tradicional</h3>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">nslookup</span> www.google.com</span></code></pre></div>
+<p><strong>Salida real (desde <code>orders-service</code>):</strong></p>
+<pre><code>$ nslookup www.google.com
+Server:   127.0.0.11
+Name:   www.google.com
+Address: 142.251.150.119
+Address: 142.251.154.119
+Address: 142.251.151.119
+...</code></pre>
+<p><strong>Salida real (desde el host):</strong></p>
+<pre><code>Servidor:  Docsis-Gateway.fibertel.com.ar
+Address:  192.168.0.1
+Nombre:  www.google.com.com.ar
+Address:  64.31.3.235</code></pre>
+<p><strong>Comparación DNS de Internet vs. resolución interna de
+Docker:</strong> - En Internet, la resolución pasa por la jerarquía DNS
+(resolver del ISP/router <code>192.168.0.1</code> → servidores
+recursivos → autoritativos), y <code>www.google.com</code> devuelve
+<strong>múltiples IP</strong> (replicación + balanceo global). - Dentro
+de Docker, el resolver embebido (<code>127.0.0.11</code>) responde
+localmente por los contenedores de la red, y reenvía al DNS externo el
+resto de dominios. Ambos comparten el mismo principio: un nombre lógico
+se resuelve a una o varias direcciones.</p>
+<hr />
+<h3 id="ejercicio-6-inventoryservice-en-c">Ejercicio 6 —
+InventoryService en C</h3>
+<p>Proyecto <code>InventoryService/</code> (Web API .NET 8). Controlador
+<code>Controllers/InventoryController.cs</code> que expone
+<code>GET /api/inventory/{productId}</code>:</p>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode csharp"><code class="sourceCode cs"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="op">[</span>ApiController<span class="op">]</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="op">[</span><span class="fu">Route</span><span class="op">(</span><span class="st">&quot;api/[controller]&quot;</span><span class="op">)]</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="kw">public</span> <span class="kw">class</span> InventoryController <span class="op">:</span> ControllerBase</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="op">{</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    <span class="op">[</span><span class="fu">HttpGet</span><span class="op">(</span><span class="st">&quot;{productId}&quot;</span><span class="op">)]</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">public</span> IActionResult <span class="fu">Get</span><span class="op">(</span><span class="dt">string</span> productId<span class="op">)</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    <span class="op">{</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>        <span class="kw">return</span> <span class="fu">Ok</span><span class="op">(</span><span class="kw">new</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>        <span class="op">{</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>            ProductId <span class="op">=</span> productId<span class="op">,</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>            Stock <span class="op">=</span> <span class="dv">25</span><span class="op">,</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>            Server <span class="op">=</span> Environment<span class="op">.</span><span class="fu">MachineName</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>        <span class="op">});</span></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+<p><strong>Prueba real (contenedor corriendo):</strong></p>
+<pre><code>GET http://localhost:8080/api/inventory/P001
+{&quot;productId&quot;:&quot;P001&quot;,&quot;stock&quot;:25,&quot;server&quot;:&quot;4910dfada409&quot;}</code></pre>
+<p>El campo <code>server</code> devuelve
+<code>Environment.MachineName</code> (el ID corto del contenedor), útil
+para distinguir instancias en escalado.</p>
+<hr />
+<h3 id="ejercicio-7-ordersservice">Ejercicio 7 — OrdersService</h3>
+<p>Proyecto <code>OrdersService/</code> cuyo controlador consume el
+inventario <strong>por nombre lógico</strong>
+(<code>inventory-service</code>), no por IP:</p>
+<div class="sourceCode" id="cb14"><pre
+class="sourceCode csharp"><code class="sourceCode cs"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> client <span class="op">=</span> <span class="kw">new</span> <span class="fu">HttpClient</span><span class="op">();</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> response <span class="op">=</span> await client<span class="op">.</span><span class="fu">GetAsync</span><span class="op">(</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;http://inventory-service:8080/api/inventory/P001&quot;</span><span class="op">);</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="dt">var</span> content <span class="op">=</span> await response<span class="op">.</span><span class="fu">Content</span><span class="op">.</span><span class="fu">ReadAsStringAsync</span><span class="op">();</span></span></code></pre></div>
+<p>Implementado como endpoint <code>GET /api/orders/{orderId}</code> con
+<code>AddHttpClient()</code>.</p>
+<p><strong>Prueba real:</strong></p>
+<pre><code>GET http://localhost:8081/api/orders/O001
+{&quot;orderId&quot;:&quot;O001&quot;,&quot;inventory&quot;:&quot;{\&quot;productId\&quot;:\&quot;P001\&quot;,\&quot;stock\&quot;:25,\&quot;server\&quot;:\&quot;4910dfada409\&quot;}&quot;,&quot;server&quot;:&quot;639d82085155&quot;}</code></pre>
+<p><strong>Comparación IP directa vs. nombre lógico:</strong> con IP
+directa, un cambio de dirección rompe el cliente y exige modificarlo;
+con el nombre lógico, el cliente sigue funcionando sin importar la IP
+actual de <code>inventory-service</code>.</p>
+<hr />
+<h3 id="ejercicio-8-dockerizar-los-servicios">Ejercicio 8 — Dockerizar
+los servicios</h3>
+<p>Se crearon los <code>Dockerfile</code> (multi-etapa: SDK para
+compilar, <code>aspnet</code> para ejecutar) de ambos servicios, más
+<code>.dockerignore</code>. Ver <code>InventoryService/Dockerfile</code>
+y <code>OrdersService/Dockerfile</code>.</p>
+<p><strong>Build real (exitosa):</strong></p>
+<pre><code>Image nombradosd-inventory-service Built
+Image nombradosd-orders-service Built</code></pre>
+<hr />
+<h3 id="ejercicio-9-docker-compose">Ejercicio 9 — Docker Compose</h3>
+<p><code>docker-compose.yml</code> define los dos servicios en la red
+<code>ecommerce-network</code> (driver bridge), con
+<code>depends_on</code> de <code>orders-service</code> hacia
+<code>inventory-service</code>.</p>
+<div class="sourceCode" id="cb17"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> compose up <span class="at">--build</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> compose ps</span></code></pre></div>
+<p><strong>Salida real:</strong></p>
+<pre><code>$ docker compose ps
+NAME                             SERVICE             STATUS          PORTS
+nombradosd-inventory-service-1   inventory-service   Up              0.0.0.0:8080-&gt;8080/tcp
+nombradosd-orders-service-1      orders-service      Up              0.0.0.0:8081-&gt;8080/tcp</code></pre>
+<p><strong>Análisis (nombres, direcciones, resolución):</strong> Compose
+crea la red <code>nombradosd_ecommerce-network</code> y registra en el
+DNS embebido los alias <code>inventory-service</code> y
+<code>orders-service</code>. Una consulta dentro de la red resuelve
+<code>inventory-service → 172.23.0.2</code> sin configuración extra.</p>
+<pre><code>$ nslookup inventory-service   (contenedor auxiliar en la red)
+Name:   inventory-service
+Address: 172.23.0.2</code></pre>
+<hr />
+<h3 id="ejercicio-10-recrear-la-infraestructura">Ejercicio 10 — Recrear
+la infraestructura</h3>
+<div class="sourceCode" id="cb20"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> compose down</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> compose up <span class="at">-d</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="ex">docker</span> inspect <span class="op">&lt;</span>nombre-del-contenedor<span class="op">&gt;</span></span></code></pre></div>
+<p><strong>Salida real (antes vs. después):</strong></p>
+<pre><code>ANTES:     inventory-service -&gt; 172.23.0.2   orders-service -&gt; 172.23.0.3
+DESPUÉS:   inventory-service -&gt; 172.23.0.2   orders-service -&gt; 172.23.0.3</code></pre>
+<p><strong>Determinación:</strong> las IP coincidieron (al recrear la
+red desde cero el asignador las repartió igual), pero los contenedores
+son <strong>instancias nuevas</strong> (cambió el
+<code>server</code>/hostname, p. ej. de <code>4910dfada409</code> a
+<code>70d3d8fbf11b</code>). La conclusión central es que <strong>el
+cliente no necesita ninguna modificación</strong> cuando cambia la
+infraestructura:</p>
+<pre><code>GET http://localhost:8081/api/orders/O002  (mismo código, nueva infraestructura)
+{&quot;orderId&quot;:&quot;O002&quot;,&quot;inventory&quot;:&quot;{...\&quot;server\&quot;:\&quot;70d3d8fbf11b\&quot;...}&quot;,&quot;server&quot;:&quot;47b22aed42ee&quot;}</code></pre>
+<p>El nombre <code>inventory-service</code> se resolvió automáticamente
+a la nueva instancia.</p>
+<hr />
+<h3 id="ejercicio-11-múltiples-instancias">Ejercicio 11 — Múltiples
+instancias</h3>
+<p>Al escalar <code>inventory-service</code> a tres réplicas detrás del
+mismo nombre:</p>
+<ol type="1">
+<li><strong>¿Debería OrdersService conocer las tres IP?</strong>
+No. Solo debe conocer el <strong>nombre</strong> del servicio.</li>
+<li><strong>¿Qué problemas generaría?</strong> Conocer y gestionar
+manualmente tres IP acopla al cliente a la topología: si una réplica
+cae, cambia de IP o se agrega otra, el cliente debe actualizarse y el
+reparto de carga no se distribuye bien.</li>
+<li><strong>¿Qué mecanismo debería localizar las instancias?</strong> Un
+sistema de <strong>Service Discovery / balanceador de carga</strong>
+que, a partir del nombre, devuelva la lista de instancias y distribuya
+las peticiones.</li>
+<li><strong>¿Cómo se relaciona con balanceo de carga?</strong> El nombre
+resuelve a un punto de entrada que reparte el tráfico entre las réplicas
+(round-robin, aleatorio, etc.). El cliente ve un único nombre; el
+balanceo es transparente.</li>
+<li><strong>¿Qué ocurre si una instancia falla?</strong> El
+balanceador/service discovery la detecta (health checks) y deja de
+enviarle tráfico, dirigiendo las peticiones a las réplicas sanas. El
+cliente no se entera.</li>
+</ol>
+<hr />
+<h3 id="ejercicio-12-service-discovery">Ejercicio 12 — Service
+Discovery</h3>
+<ol type="1">
+<li><strong>¿Qué información mantiene?</strong> La lista de instancias
+vivas de cada servicio: nombre del servicio, direcciones (IP+puerto),
+metadatos y estado de salud.</li>
+<li><strong>¿Cómo se registran nuevas instancias?</strong> Cada
+instancia, al arrancar, se <strong>auto-registra</strong> en el registro
+(o un agente lo hace por ella) y mantiene un <em>heartbeat</em>; al
+detenerse se da de baja.</li>
+<li><strong>¿Cómo se detectan instancias no disponibles?</strong>
+Mediante <strong>health checks</strong> periódicos y/o expiración del
+<em>heartbeat</em>: si una instancia no responde, se elimina del
+registro.</li>
+<li><strong>¿Qué relación existe con nombrado?</strong> Es nombrado
+dinámico: el nombre del servicio es la clave estable y el registro
+mantiene el mapeo nombre → conjunto actual de direcciones.</li>
+<li><strong>¿Por qué es importante en microservicios?</strong> Porque
+los microservicios se crean, destruyen y escalan continuamente; el
+discovery permite que los clientes siempre localicen instancias sanas
+sin configuración estática.</li>
+</ol>
+<hr />
+<h3 id="ejercicio-13-kubernetes">Ejercicio 13 — Kubernetes</h3>
+<ol type="1">
+<li><strong>¿Qué problema de nombrado resuelve Kubernetes
+Service?</strong> Da una <strong>IP virtual estable y un nombre
+DNS</strong> a un conjunto de Pods efímeros. Los clientes usan el nombre
+del Service, no las IP de los Pods.</li>
+<li><strong>¿Por qué no conviene referenciar directamente las IP de los
+Pods?</strong> Porque los Pods son efímeros: al reiniciarse, escalarse o
+reprogramarse cambian de IP y de nombre.</li>
+<li><strong>¿Qué ocurre si un Pod es reemplazado?</strong> El Service
+(vía selectors de etiquetas) actualiza sus <em>endpoints</em> para
+incluir al nuevo Pod y excluir al viejo, manteniendo la misma IP/alias
+del Service.</li>
+<li><strong>¿El cliente necesita conocer el cambio?</strong> No. Sigue
+usando el nombre del Service (<code>inventory-service</code>) y el DNS
+del clúster (<code>kube-dns</code>/CoreDNS) resuelve a la IP estable del
+Service.</li>
+<li><strong>¿Cómo se relaciona con transparencia de ubicación?</strong>
+El Service actúa como capa de indirección que oculta la ubicación y
+rotación de los Pods; el cliente se referencia por nombre y no percibe
+los reemplazos.</li>
+</ol>
+<hr />
+<h3 id="ejercicio-14-comparación">Ejercicio 14 — Comparación</h3>
+<table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+</colgroup>
+<thead>
+<tr>
+<th>Mecanismo</th>
+<th>Nombre utilizado</th>
+<th>Quién resuelve</th>
+<th>Destino</th>
+<th>¿Puede cambiar la IP?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DNS Internet</td>
+<td><code>www.ejemplo.com</code></td>
+<td>DNS</td>
+<td>Servidor</td>
+<td>Sí</td>
+</tr>
+<tr>
+<td>Docker</td>
+<td><code>inventory-service</code></td>
+<td>DNS interno Docker (<code>127.0.0.11</code>)</td>
+<td>Contenedor</td>
+<td>Sí</td>
+</tr>
+<tr>
+<td>Kubernetes</td>
+<td><code>inventory-service</code></td>
+<td>DNS / Service</td>
+<td>Pods</td>
+<td>Sí</td>
+</tr>
+<tr>
+<td>IP directa</td>
+<td><code>172.18.0.5</code></td>
+<td>No existe resolución</td>
+<td>Host/Contenedor</td>
+<td>La referencia queda obsoleta</td>
+</tr>
+</tbody>
+</table>
+<p><em>(Verificado en la práctica: en Docker el nombre se mantuvo y la
+IP pasó de <code>172.22.0.2</code> a <code>172.22.0.5</code> sin tocar
+el cliente.)</em></p>
+<hr />
+<h3 id="ejercicio-15-conclusión">Ejercicio 15 — Conclusión</h3>
+<pre><code>NOMBRE → RESOLUCIÓN → DIRECCIÓN → ENTIDAD / SERVICIO</code></pre>
+<p>Los <strong>nombres</strong> son el punto de referencia estable y
+desacoplado de la ubicación. La <strong>resolución</strong> es el
+mecanismo que traduce ese nombre en la <strong>dirección</strong> actual
+de la <strong>entidad</strong> en cada momento. Esta cadena de
+indirección es la que hace viable un sistema distribuido.</p>
+<p>Los componentes de un sistema distribuido <strong>cambian de
+ubicación, se reinician, escalan horizontalmente y son
+reemplazados</strong> constantemente; su dirección física es, por tanto,
+efímera. Si los clientes codificaran direcciones IP, cada cambio
+obligaría a modificarlos y redesplegarlos, y el sistema se volvería
+frágil e inmanejable.</p>
+<p>Al referenciar por <strong>nombre lógico</strong>
+(<code>inventory-service</code>) y delegar la resolución en un sistema
+de nombres (DNS, DNS embebido de Docker, Service Discovery, Kubernetes
+Service), los clientes quedan aislados de esos cambios: la dirección
+puede variar, la identidad lógica permanece. Esto habilita:</p>
+<ul>
+<li><strong>Transparencia de ubicación</strong>: el cliente no sabe ni
+necesita saber dónde está el recurso.</li>
+<li><strong>Escalabilidad</strong>: muchas instancias comparten un único
+nombre detrás de un balanceador.</li>
+<li><strong>Movilidad</strong>: migrar o recrear una entidad no rompe a
+sus consumidores.</li>
+<li><strong>Tolerancia a fallos</strong>: el discovery deja de enrutar a
+instancias caídas sin intervención del cliente.</li>
+</ul>
+<p>En síntesis, en un sistema distribuido los <strong>nombres</strong>
+son la interfaz estable que permite que la <strong>ubicación</strong>
+sea un detalle dinámico; la <strong>resolución de nombres</strong> es la
+pieza que conecta ambos mundos, y por eso constituye un pilar
+fundamental del diseño de sistemas distribuidos.</p>
+</body>
+</html>
