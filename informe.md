@@ -457,7 +457,7 @@ Al escalar `inventory-service` a tres réplicas detrás del mismo nombre:
 ### Ejercicio 15 — Conclusión
 
 ```
-NOMBRE ──► RESOLUCIÓN ──► DIRECCIÓN ──► ENTIDAD / SERVICIO
+NOMBRE → RESOLUCIÓN → DIRECCIÓN → ENTIDAD / SERVICIO
 ```
 
 Los **nombres** son el punto de referencia estable y desacoplado de la ubicación. La **resolución** es el mecanismo que traduce ese nombre en la **dirección** actual de la **entidad** en cada momento. Esta cadena de indirección es la que hace viable un sistema distribuido.
